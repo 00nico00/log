@@ -1,9 +1,11 @@
 #include <iostream>
 
-using namespace std;
+#include "utility/Logger.h"
 
-int main(int argc, char** argv)
-{
-    cout << "hello world!" << endl;
+using namespace nico::utility;
+
+int main(int argc, char **argv) {
+    Logger::instance().open("/mnt/src/cpp/log/Log/test.log");
+
     return 0;
 }
