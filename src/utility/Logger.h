@@ -58,9 +58,17 @@ public:
     void open(const std::string& filename);
     void close();
 
+    void level(Level level) { m_level = level; }
+    void max(int bytes) { m_max = bytes; }
+
 private:
     Logger();
     ~Logger();
+
+    /**
+     * @brief 日志翻滚功能
+     */
+    void rotate();
 
 private:
     /**
@@ -68,6 +76,9 @@ private:
      */
     std::string m_filename;
     std::ofstream m_fout;
+    Level m_level;
+    int m_max;  // 一个日志容纳最大长度
+    int m_len;  // 记录当前日志已经有多长了
     static const char* s_level[LEVEL_COUNT];
 };
 
