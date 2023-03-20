@@ -1,5 +1,7 @@
 #include "Logger.h"
 
+#include <cstdio>
+#include <cstring>
 #include <ctime>
 #include <stdexcept>
 
@@ -36,7 +38,23 @@ void Logger::log(Level level, const char* file, int line, const char* format,
     std::time_t ticks = time(nullptr);
     struct tm* ptn = localtime(&ticks);
     char timestamp[32];
-    // format output time
+    // format output time to string
     memset(timestamp, 0, sizeof(timestamp));
     strftime(timestamp, sizeof(timestamp), "%Y-%m-%d %H:%M:%S", ptn);
+    // printf("%s\n", timestamp);
+    // printf("%s\n", file);
+    // printf("%d\n", line);
+    /**
+     * @brief 时间/日志级别/日志所在文件名称/文件行号
+     */
+    const char* fmt = "%s %s %s:%d";
+    int size = snprintf(nullptr, 0, fmt, timestamp, s_level[level], file, line);
+    if (size > 0) {
+        char* buffer = new char[size + 1];
+        snprintf(buffer, size + 1, fmt, timestamp, s_level[level], file, line);
+        // buffer[size] = '\0'
+        // printf("%s\n", buffer);
+        m_fout << buffer;
+        delete[] buffer;
+    }
 }

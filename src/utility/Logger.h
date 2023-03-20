@@ -1,9 +1,6 @@
 #pragma once
 
-#include <cstring>
-#include <ctime>
 #include <fstream>
-#include <stdexcept>
 #include <string>
 
 namespace nico {
