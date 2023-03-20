@@ -3,6 +3,7 @@
 #include <cstdio>
 #include <cstring>
 #include <ctime>
+#include <cstdarg>
 #include <stdexcept>
 
 using namespace nico::utility;
@@ -57,4 +58,22 @@ void Logger::log(Level level, const char* file, int line, const char* format,
         m_fout << buffer;
         delete[] buffer;
     }
+    m_fout << " ";
+    
+    std::va_list arg_ptr;  // store variablie param
+    va_start(arg_ptr, format);  // init
+    // 先知道了字符串的长度，才能动态分配出一个缓冲区来存储
+    size = vsnprintf(NULL, 0, format, arg_ptr);
+    va_end(arg_ptr); // end
+    if (size > 1) {
+        char* content = new char[size + 1];
+        va_start(arg_ptr, format); // 每次调用vsnprintf都需要处理一下
+        vsnprintf(content, size + 1, format, arg_ptr);
+        va_end(arg_ptr);
+        // printf("%s\n", content);
+        m_fout << content;
+    }
+
+    m_fout << "\n";
+    m_fout.flush(); // 刷新缓存区，使数据写入硬盘
 }

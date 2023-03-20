@@ -6,6 +6,37 @@
 namespace nico {
 namespace utility {
 
+// ##用在__VA_ARGS__宏前面是为了使得可变参数没有时也能取消掉','符号
+#ifndef DEBUG
+#define DEBUG(format, ...)                                            \
+    Logger::instance().log(Logger::DEBUG, __FILE__, __LINE__, format, \
+                           ##__VA_ARGS__)
+#endif
+
+#ifndef INFO
+#define INFO(format, ...)                                            \
+    Logger::instance().log(Logger::INFO, __FILE__, __LINE__, format, \
+                           ##__VA_ARGS__)
+#endif
+
+#ifndef WARN
+#define WARN(format, ...)                                            \
+    Logger::instance().log(Logger::WARN, __FILE__, __LINE__, format, \
+                           ##__VA_ARGS__)
+#endif
+
+#ifndef ERROR
+#define ERROR(format, ...)                                            \
+    Logger::instance().log(Logger::ERROR, __FILE__, __LINE__, format, \
+                           ##__VA_ARGS__)
+#endif
+
+#ifndef FATAL
+#define FATAL(format, ...)                                            \
+    Logger::instance().log(Logger::FATAL, __FILE__, __LINE__, format, \
+                           ##__VA_ARGS__)
+#endif
+
 class Logger {
 public:
     enum Level { DEBUG = 0, INFO, WARN, ERROR, FATAL, LEVEL_COUNT };
